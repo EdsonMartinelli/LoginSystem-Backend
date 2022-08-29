@@ -3,7 +3,7 @@ import { usePrisma } from '../hooks/usePrisma';
 import * as crypto from "crypto";
 import bcrypt from 'bcryptjs'
 
-export const signUp = async (req: Request, res: Response) => {
+export const SignUp = async (req: Request, res: Response) => {
     try {
       const email = req.body.email;
       const password = req.body.password;
@@ -21,13 +21,13 @@ export const signUp = async (req: Request, res: Response) => {
           emailToken
         }
       })
-      res.status(200).json({message: "Cadastro efetuado!"})
+      res.status(200).json({message: "Success!"})
     } catch (error: any) {
-      res.status(500).json({error: "Ocorreu um erro durante o cadastro."})
+      res.status(500).json({error: "A error happened in sign up."})
     }
 }
 
-export const login = async (req: Request, res: Response) => {
+export const Login = async (req: Request, res: Response) => {
     try {
         const email = req.body.email;
         const password = req.body.password;
@@ -38,11 +38,11 @@ export const login = async (req: Request, res: Response) => {
         },
         })
         if(bcrypt.compareSync(password, user?.password ?? "")){
-        res.status(200).json({message: "Login efetuado!"})
+        res.status(200).json({message: "Success!"})
         } else {
-        res.status(404).json({error: "Email e/ou senha errado(s)."})
+        res.status(404).json({error: "Wrong email or password."})
         }
     } catch (error: any) {
-        res.status(500).json({error: "Ocorreu um erro durante o cadastro."})
+        res.status(500).json({error: "A error happened in login."})
     }
 }

@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { login, signUp } from '../controllers/userController';
+import { Login, SignUp } from '../controllers/userController';
 
 export const usersRouter = Router();
 
-usersRouter.post('/signup', signUp)
+usersRouter.post('/signup', SignUp)
   
-usersRouter.post('/login', login)
+usersRouter.post('/login', Login)
   
