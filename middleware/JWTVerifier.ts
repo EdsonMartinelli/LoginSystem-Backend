@@ -16,6 +16,6 @@ export const authMiddleware = async ( req: Request,
    
       next();
     } catch (error) {
-      res.status(401).json({ error: true, errorMessage: 'Missing authorization token' })
+      res.status(401).json({ error: true, errorMessage: 'Missing authorization token.' })
     }
 };
