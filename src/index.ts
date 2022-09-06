@@ -8,8 +8,6 @@ import { Request, Response } from 'express';
 import { authMiddleware } from './middleware/JWTVerifier';
 import { RequestWithDecoded } from './types/RequestWithDecoded';
 
-
-
 dotenv.config();
 
 const port = process.env.PORT;
