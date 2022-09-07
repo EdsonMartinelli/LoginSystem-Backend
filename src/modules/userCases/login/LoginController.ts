@@ -1,29 +1,33 @@
+import bcrypt from 'bcryptjs'
 import { IUsersRepository } from "../../../repositories/IUsersRepository";
-import { PrismaUserRepository } from "../../../repositories/prisma/PrismaUserRepository";
-import { IService } from "../../IService";
-import { LoginUserService } from "./LoginService";
-import { Request, Response } from 'express';
+import { User } from '../../../entities/User';
+import { IUserController } from '../../IUserController';
 
-class LoginController{
-    private repository: IUsersRepository
-    private loginUser: IService
+type ILoginUserRequest = {
+    email: string,
+    password: string
+}
 
-    constructor() {
-        this.repository = new PrismaUserRepository()
-        this.loginUser = new LoginUserService(this.repository)
+class LoginController implements IUserController{
+
+    usersRepository: IUsersRepository
+    constructor( usersRepository: IUsersRepository) {
+        this.usersRepository = usersRepository
     }
+  
+    async execute({ email, password }: ILoginUserRequest) {
+        const user = await this.usersRepository.findByEmail(email);
 
-    async handle(req: Request, res: Response) {
-        try {
-            const email = req.body.email;
-            const password = req.body.password;
-            const user = await this.loginUser.execute({ email, password });
-            return res.status(200).json({message: "Success!", user: user})
-        } catch (error: any) {
-            return res.status(400).json({error: error.message})
+        if (!user) {
+            throw new Error("Password and/or email incorrect!")
         }
+
+        if (!(bcrypt.compareSync(password, (user as User).password ))) {
+            throw new Error("Password incorrect!")
+        }
+
+        return user
     }
-    
 }
 
 export { LoginController }
