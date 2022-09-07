@@ -4,14 +4,13 @@ import { IService } from "../../IService";
 import { User } from "../../../entities/User";
 import { IUsersRepository } from "../../../repositories/IUsersRepository";
 
-
 type IUserRequest = {
     email: string,
     username: string,
     password: string
 }
 
-class SignUpUserService implements IService {
+class SignUpService implements IService {
 
     usersRepository: IUsersRepository
     constructor( usersRepository: IUsersRepository) {
@@ -19,7 +18,7 @@ class SignUpUserService implements IService {
     }
   
     async execute({ email, username, password }: IUserRequest) {
-        const userAlreadyExists = await this.usersRepository.get(email);
+        const userAlreadyExists = await this.usersRepository.findByEmail(email);
     
         if (userAlreadyExists) {
             throw new Error("User already exists!");
@@ -42,4 +41,4 @@ class SignUpUserService implements IService {
     }
 }
 
-export {SignUpUserService}
+export { SignUpService }

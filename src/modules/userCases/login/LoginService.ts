@@ -1,11 +1,10 @@
 import bcrypt from 'bcryptjs'
 import { IService } from "../../IService";
 import { IUsersRepository } from "../../../repositories/IUsersRepository";
-
+import { User } from '../../../entities/User';
 
 type ILoginUserRequest = {
     email: string,
-    username: string,
     password: string
 }
 
@@ -17,13 +16,13 @@ class LoginUserService implements IService {
     }
   
     async execute({ email, password }: ILoginUserRequest) {
-        const user = await this.usersRepository.get(email);
+        const user = await this.usersRepository.findByEmail(email);
 
         if (!user) {
             throw new Error("Password and/or email incorrect!")
         }
 
-        if (!(bcrypt.compareSync(password, user?.password ?? "" ))) {
+        if (!(bcrypt.compareSync(password, (user as User).password ))) {
             throw new Error("Password incorrect!")
         }
 
