@@ -25,7 +25,6 @@ class LoginController implements IUserController{
         if (!(bcrypt.compareSync(password, (user as User).password ))) {
             throw new Error("Password incorrect!")
         }
-
         return user
     }
 }
