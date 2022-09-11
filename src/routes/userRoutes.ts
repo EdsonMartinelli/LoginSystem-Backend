@@ -1,16 +1,20 @@
 import { Router } from 'express';
 import { Request, Response } from 'express';
-import { InstanceLogin } from '../modules/userCases/login/InstanceLogin';
-import { InstanceSignUp } from '../modules/userCases/signup/InstanceSignUp';
-
+import { LoginInstance } from '../userCases/login/LoginInstance';
+import { RevalidateTokenInstance } from '../userCases/revalidateToken/RevalidateTokenInstance';
+import { SignUpInstance } from '../userCases/signup/SignUpInstance';
 
 export const usersRouter = Router();
 
 usersRouter.post('/signup', (req: Request, res: Response) => {
-    InstanceSignUp().handle(req, res)
+    SignUpInstance().handle(req, res)
 })
   
-usersRouter.post('/login',(req: Request, res: Response) => {
-    InstanceLogin().handle(req, res)
+usersRouter.post('/login', (req: Request, res: Response) => {
+    LoginInstance().handle(req, res)
+})
+
+usersRouter.get('/revalidateToken', (req: Request, res: Response) => {
+    RevalidateTokenInstance().handle(req, res)
 })
   

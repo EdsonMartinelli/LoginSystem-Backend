@@ -1,14 +1,10 @@
 import bcrypt from 'bcryptjs'
-import { IUsersRepository } from "../../../repositories/IUsersRepository";
-import { User } from '../../../entities/User';
-import { IUserController } from '../../IUserController';
+import { IUsersRepository } from "../../repositories/IUsersRepository";
+import { User } from '../../entities/User';
+import jwt from "jsonwebtoken";
+import { ILoginController, ILoginUserRequest } from './ILoginController';
 
-type ILoginUserRequest = {
-    email: string,
-    password: string
-}
-
-class LoginController implements IUserController{
+class LoginController implements ILoginController{
 
     usersRepository: IUsersRepository
     constructor( usersRepository: IUsersRepository) {
@@ -25,7 +21,15 @@ class LoginController implements IUserController{
         if (!(bcrypt.compareSync(password, (user as User).password ))) {
             throw new Error("Password incorrect!")
         }
-        return user
+
+        const payload = {
+            id: user.id,
+            email: user.email,
+            username: user.username
+        }
+        
+        const token = jwt.sign(payload, process.env.SECRET_KEY || "", { expiresIn: '15m' }) 
+        return token
     }
 }
 

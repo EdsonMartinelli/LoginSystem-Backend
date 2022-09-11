@@ -14,6 +14,7 @@ export const authMiddleware = async ( req: Request,
       const tokenTest = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXNzYWdlIjoic3VjY2VzcyJ9.UpWcWGV7UmkhDYcf0UBXr7zYsehwbeSck6ExzTsrbgE"
       const payload = jwt.verify(tokenTest, "testmessage");
       (req as RequestWithDecoded).decoded = payload;
+      (req as RequestWithDecoded).token = token || "";
    
       next();
     } catch (error) {

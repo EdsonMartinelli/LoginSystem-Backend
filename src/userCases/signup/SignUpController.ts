@@ -1,23 +1,18 @@
 import * as crypto from "crypto";
 import bcrypt from 'bcryptjs'
-import { User } from "../../../entities/User";
-import { IUsersRepository } from "../../../repositories/IUsersRepository";
-import { IUserController } from "../../IUserController";
+import { User } from "../../entities/User";
+import { IUsersRepository } from "../../repositories/IUsersRepository";
+import { ISignUpController, ISignUpUserRequest } from "./ISignUpController";
 
-type IUserRequest = {
-    email: string,
-    username: string,
-    password: string
-}
 
-class SignUpController implements IUserController{
+class SignUpController implements ISignUpController{
 
     usersRepository: IUsersRepository
     constructor( usersRepository: IUsersRepository) {
         this.usersRepository = usersRepository
     }
   
-    async execute({ email, username, password }: IUserRequest) {
+    async execute({ email, username, password }: ISignUpUserRequest) {
         const userAlreadyExists = await this.usersRepository.findByEmail(email);
     
         if (userAlreadyExists) {

@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { IUserController } from "../../IUserController";
+import { ISignUpController } from './ISignUpController';
 
 class SignUpDTO{
 
-    private signUpController: IUserController
+    private signUpController: ISignUpController
 
-    constructor(signUpControler: IUserController) {
+    constructor(signUpControler: ISignUpController) {
         this.signUpController = signUpControler
     }
 
