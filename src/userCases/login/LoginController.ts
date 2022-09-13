@@ -1,8 +1,9 @@
 import bcrypt from 'bcryptjs'
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { User } from '../../entities/User';
-import jwt from "jsonwebtoken";
+import { sign } from "jsonwebtoken";
 import { ILoginController, ILoginUserRequest } from './ILoginController';
+import { payloadProps } from '../revalidateToken/IRevalidateTokenController';
 
 class LoginController implements ILoginController{
 
@@ -22,13 +23,14 @@ class LoginController implements ILoginController{
             throw new Error("Password incorrect!")
         }
 
-        const payload = {
-            id: user.id,
+        const payload: payloadProps = {
+            id: user.id || " ",
             email: user.email,
-            username: user.username
+            username: user.username,
+            iat: Date.now()
         }
         
-        const token = jwt.sign(payload, process.env.SECRET_KEY || "", { expiresIn: '15m' }) 
+        const token = sign(payload, process.env.SECRET_KEY || "", { expiresIn: '30m' }) 
         return token
     }
 }
