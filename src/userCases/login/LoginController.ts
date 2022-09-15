@@ -3,7 +3,7 @@ import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { User } from '../../entities/User';
 import { sign } from "jsonwebtoken";
 import { ILoginController, ILoginUserRequest } from './ILoginController';
-import { payloadProps } from '../revalidateToken/IRevalidateTokenController';
+import { payloadProps } from '../../middleware/IJWTVerifierController';
 
 class LoginController implements ILoginController{
 
@@ -27,10 +27,10 @@ class LoginController implements ILoginController{
             id: user.id || " ",
             email: user.email,
             username: user.username,
-            iat: Date.now()
+            iat: Math.floor(Date.now() / 1000)
         }
         
-        const token = sign(payload, process.env.SECRET_KEY || "", { expiresIn: '30m' }) 
+        const token = sign(payload, process.env.SECRET_KEY || "", { expiresIn: '30m' }) // 30 minutes
         return token
     }
 }

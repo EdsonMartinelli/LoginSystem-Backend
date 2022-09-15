@@ -1,12 +1,7 @@
-export type payloadProps = {
-    id: string,
-    email: string,
-    username: string,
-    iat: number
-}
+import { tokenInfoProps } from "../../middleware/IJWTVerifierController"
 
 interface IRevalidateTokenController {
-    execute(payload : payloadProps) : string
+    execute(tokenInfo : tokenInfoProps) : string
 }
 
 export {IRevalidateTokenController}

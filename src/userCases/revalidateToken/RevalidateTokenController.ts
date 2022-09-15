@@ -1,16 +1,24 @@
-import { IRevalidateTokenController, payloadProps } from "./IRevalidateTokenController";
+import { IRevalidateTokenController} from "./IRevalidateTokenController";
 import { sign } from "jsonwebtoken"
+import { payloadProps, tokenInfoProps } from "../../middleware/IJWTVerifierController";
 
 class RevalidateTokenController implements IRevalidateTokenController{
   
-    execute(payload: payloadProps) {
-        const timeToRevalidate = 15 * 1000 // 15 minutes 
+    execute(tokenInfo: tokenInfoProps ) {
+        const timeToRevalidate = 15 * 60 // 15 minutes 
 
-        if(!(Date.now() >= payload.iat + timeToRevalidate)) {
-            throw new Error("New token is not needed.")
+        if(Math.floor(Date.now() /1000) >= tokenInfo.payload.iat + timeToRevalidate) {
+            const newPayload: payloadProps = {
+                id: tokenInfo.payload.id,
+                email: tokenInfo.payload.email,
+                username: tokenInfo.payload.username,
+                iat: Date.now()
+            }
+            const newToken = sign(newPayload, process.env.SECRET_KEY || "", { expiresIn: '30m' }) // 30 minutes
+            return newToken
         }
-        const newToken = sign(payload, process.env.SECRET_KEY || "", { expiresIn: '30m' })
-        return newToken
+        
+        return tokenInfo.token
     }
 }
 

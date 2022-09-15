@@ -10,13 +10,13 @@ class JWTVerifierDTO{
   handle( req: Request, res: Response, next: NextFunction ) {
     try {
 
-      const token = req.header('Authorization')?.replace('Bearer ', '');
-      const payload = this.jwtVerifierController.execute(token)
-      req.body.payload = payload
+      const token = req.header('Authorization')?.replace('Bearer', '').replace(' ', '');
+      const tokenInfo = this.jwtVerifierController.execute(token)
+      req.body.tokenInfo = tokenInfo
       next();
       
-    } catch (error) {
-      res.status(401).json({ error: true, errorMessage: 'Missing authorization token.' })
+    } catch (error: any) {
+      res.status(401).json({ error: true, errorMessage: error.message })
     }
   }
 }
