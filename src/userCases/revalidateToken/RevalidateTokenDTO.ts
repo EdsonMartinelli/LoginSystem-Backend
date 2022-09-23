@@ -1,19 +1,18 @@
-import { Request, Response } from 'express';
-import { IRevalidateTokenController } from './IRevalidateTokenController';
+import { Request, Response } from "express";
+import { IRevalidateTokenController } from "./IRevalidateTokenController";
 
-class RevalidateTokenDTO{
-    private revalidateTokenController: IRevalidateTokenController
+class RevalidateTokenDTO {
+  private readonly revalidateTokenController: IRevalidateTokenController;
 
-    constructor(revalidateTokenController: IRevalidateTokenController) {
-        this.revalidateTokenController = revalidateTokenController
-    }
+  constructor(revalidateTokenController: IRevalidateTokenController) {
+    this.revalidateTokenController = revalidateTokenController;
+  }
 
-    handle(req: Request, res: Response) {
-        const tokenInfo = req.body.tokenInfo
-        const token = this.revalidateTokenController.execute(tokenInfo);
-        return res.status(200).json({message: "Success!", token})
-    }
-    
+  handle(req: Request, res: Response) {
+    const tokenInfo = req.body.tokenInfo;
+    const token = this.revalidateTokenController.execute(tokenInfo);
+    return res.status(200).json({ message: "Success!", token });
+  }
 }
 
-export { RevalidateTokenDTO }
+export { RevalidateTokenDTO };

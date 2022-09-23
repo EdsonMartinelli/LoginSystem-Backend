@@ -1,10 +1,10 @@
-export type ILoginUserRequest = {
-    email: string,
-    password: string
+export interface ILoginUserRequest {
+  email: string;
+  password: string;
 }
 
 interface ILoginController {
-    execute(args: ILoginUserRequest) : Promise<string>
+  execute: (args: ILoginUserRequest) => Promise<string>;
 }
 
-export {ILoginController}
+export { ILoginController };

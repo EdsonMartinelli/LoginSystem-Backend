@@ -1,7 +1,7 @@
-import { tokenInfoProps } from "../../middleware/IJWTVerifierController"
+import { tokenInfoProps } from "../../middleware/IJWTVerifierController";
 
 interface IRevalidateTokenController {
-    execute(tokenInfo : tokenInfoProps) : string
+  execute: (tokenInfo: tokenInfoProps) => string;
 }
 
-export {IRevalidateTokenController}
+export { IRevalidateTokenController };

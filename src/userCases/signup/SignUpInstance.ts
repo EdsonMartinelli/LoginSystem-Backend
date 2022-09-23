@@ -2,6 +2,6 @@ import { PrismaUserRepository } from "../../repositories/prisma/PrismaUserReposi
 import { SignUpController } from "./SignUpController";
 import { SignUpDTO } from "./SignUpDTO";
 
-export function SignUpInstance(){
-   return new SignUpDTO( new SignUpController( new PrismaUserRepository()))
+export function SignUpInstance() {
+  return new SignUpDTO(new SignUpController(new PrismaUserRepository()));
 }

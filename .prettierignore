@@ -1,0 +1,9 @@
+node_modules/
+dist/
+prisma
+.env
+package-lock.json
+package.json
+.gitignore
+.eslintrc.json
+tsconfig.json
