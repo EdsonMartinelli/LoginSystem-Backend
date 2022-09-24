@@ -1,5 +1,4 @@
 import { NextFunction, Router, Request, Response } from "express";
-
 import { JWTVerifierInstance } from "../middleware/JWTVerifierInstance";
 import { LoginInstance } from "../userCases/login/LoginInstance";
 import { RevalidateTokenInstance } from "../userCases/revalidateToken/RevalidateTokenInstance";
@@ -8,11 +7,11 @@ import { SignUpInstance } from "../userCases/signup/SignUpInstance";
 export const usersRouter = Router();
 
 usersRouter.post("/signup", (req: Request, res: Response) => {
-  void SignUpInstance().handle(req, res);
+  SignUpInstance().handle(req, res);
 });
 
 usersRouter.post("/login", (req: Request, res: Response) => {
-  void LoginInstance().handle(req, res);
+  LoginInstance().handle(req, res);
 });
 
 usersRouter.get(
