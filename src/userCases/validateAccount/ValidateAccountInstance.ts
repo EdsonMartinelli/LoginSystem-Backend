@@ -3,5 +3,7 @@ import { ValidateAccountController } from "./ValidateAccountController";
 import { ValidateAccountDTO } from "./ValidateAccountDTO";
 
 export function ValidateAccountInstance() {
-    return new ValidateAccountDTO(new ValidateAccountController(new PrismaUserRepository()));
+  return new ValidateAccountDTO(
+    new ValidateAccountController(new PrismaUserRepository())
+  );
 }

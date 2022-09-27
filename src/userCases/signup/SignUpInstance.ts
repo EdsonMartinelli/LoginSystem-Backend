@@ -4,5 +4,10 @@ import { SignUpController } from "./SignUpController";
 import { SignUpDTO } from "./SignUpDTO";
 
 export function SignUpInstance() {
-  return new SignUpDTO(new SignUpController(new PrismaUserRepository(), new NodemailerUserService()));
+  return new SignUpDTO(
+    new SignUpController(
+      new PrismaUserRepository(),
+      new NodemailerUserService()
+    )
+  );
 }

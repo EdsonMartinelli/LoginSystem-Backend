@@ -15,11 +15,9 @@ usersRouter.post("/login", (req: Request, res: Response) => {
   LoginInstance().handle(req, res);
 });
 
-usersRouter.patch(
-  "/validateEmail/:id", (req: Request, res: Response) => {
-    ValidateAccountInstance().handle(req, res);
-  }
-);
+usersRouter.patch("/validateemail/:id", (req: Request, res: Response) => {
+  ValidateAccountInstance().handle(req, res);
+});
 
 usersRouter.get(
   "/revalidateToken",

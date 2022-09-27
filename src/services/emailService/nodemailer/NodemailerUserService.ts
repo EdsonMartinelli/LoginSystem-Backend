@@ -1,6 +1,6 @@
 import { emailConfirmProps, IUsersEmailService } from "../IUserEmailService";
 import { createTransport, Transporter } from "nodemailer";
-import { smtp as SMTP_CONFIG} from "./config/SMTP";
+import { smtp as SMTP_CONFIG } from "./config/SMTP";
 
 class NodemailerUserService implements IUsersEmailService {
   transporter: Transporter;
@@ -12,11 +12,11 @@ class NodemailerUserService implements IUsersEmailService {
       service: SMTP_CONFIG.service,
       auth: {
         user: SMTP_CONFIG.auth.user,
-        pass: SMTP_CONFIG.auth.password
+        pass: SMTP_CONFIG.auth.password,
       },
       tls: {
-        rejectUnauthorized: false
-      }
+        rejectUnauthorized: false,
+      },
     });
   }
 
