@@ -3,11 +3,17 @@ import bcrypt from "bcryptjs";
 import { User } from "../../entities/User";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { ISignUpController, ISignUpUserRequest } from "./ISignUpController";
+import { IUsersEmailService } from "../../services/emailService/IUserEmailService";
 
 class SignUpController implements ISignUpController {
   usersRepository: IUsersRepository;
-  constructor(usersRepository: IUsersRepository) {
+  emailService: IUsersEmailService;
+  constructor(
+    usersRepository: IUsersRepository,
+    emailService: IUsersEmailService
+  ) {
     this.usersRepository = usersRepository;
+    this.emailService = emailService;
   }
 
   async execute({ email, username, password }: ISignUpUserRequest) {
@@ -30,6 +36,7 @@ class SignUpController implements ISignUpController {
     });
 
     const user = await this.usersRepository.create(newUser);
+    await this.emailService.sendEmailConfirm({ email, emailToken });
     return user;
   }
 }

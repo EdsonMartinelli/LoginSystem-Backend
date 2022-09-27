@@ -1,13 +1,10 @@
-export interface dataEmail {
-  // from: string,
-  to: string;
-  // subject: string,
-  text: string;
-  html: string;
+export interface emailConfirmProps {
+  email: string;
+  emailToken: string;
 }
 
 interface IUsersEmailService {
-  sendEmailConfirm: (data: dataEmail) => Promise<void>;
+  sendEmailConfirm: (data: emailConfirmProps) => Promise<void>;
 }
 
 export { IUsersEmailService };

@@ -3,6 +3,7 @@ import { JWTVerifierInstance } from "../middleware/JWTVerifierInstance";
 import { LoginInstance } from "../userCases/login/LoginInstance";
 import { RevalidateTokenInstance } from "../userCases/revalidateToken/RevalidateTokenInstance";
 import { SignUpInstance } from "../userCases/signup/SignUpInstance";
+import { ValidateAccountInstance } from "../userCases/validateAccount/ValidateAccountInstance";
 
 export const usersRouter = Router();
 
@@ -13,6 +14,12 @@ usersRouter.post("/signup", (req: Request, res: Response) => {
 usersRouter.post("/login", (req: Request, res: Response) => {
   LoginInstance().handle(req, res);
 });
+
+usersRouter.patch(
+  "/validateEmail/:id", (req: Request, res: Response) => {
+    ValidateAccountInstance().handle(req, res);
+  }
+);
 
 usersRouter.get(
   "/revalidateToken",
