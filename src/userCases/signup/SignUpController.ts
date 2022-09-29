@@ -1,6 +1,6 @@
 import * as crypto from "crypto";
 import bcrypt from "bcryptjs";
-import { User } from "../../entities/User";
+import { userPrototypeProps } from "../../entities/User";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { ISignUpController, ISignUpUserRequest } from "./ISignUpController";
 import { IUsersEmailService } from "../../services/emailService/IUserEmailService";
@@ -27,13 +27,13 @@ class SignUpController implements ISignUpController {
     const passwordHash = bcrypt.hashSync(password, salt);
     const emailToken = crypto.randomBytes(3).toString("hex");
 
-    const newUser = new User({
+    const newUser: userPrototypeProps = {
       email,
       username,
       password: passwordHash,
       salt,
-      emailToken,
-    });
+      emailToken
+    };
 
     const user = await this.usersRepository.create(newUser);
     await this.emailService.sendEmailConfirm({ email, emailToken });

@@ -1,7 +1,7 @@
-import { User } from "../entities/User";
+import { User, userPrototypeProps } from "../entities/User";
 
 interface IUsersRepository {
-  create: (user: User) => Promise<User>;
+  create: (user: userPrototypeProps) => Promise<User>;
   findByEmail: (email: string) => Promise<User | null>;
   findByID: (id: string) => Promise<User | null>;
   validateUser: (id: string) => Promise<User>;

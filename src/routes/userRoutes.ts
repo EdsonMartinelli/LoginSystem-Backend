@@ -19,7 +19,7 @@ usersRouter.patch("/validateemail/:id", (req: Request, res: Response) => {
   ValidateAccountInstance().handle(req, res);
 });
 
-usersRouter.get(
+usersRouter.post(
   "/revalidateToken",
   (req: Request, res: Response, next: NextFunction) => {
     JWTVerifierInstance().handle(req, res, next);
