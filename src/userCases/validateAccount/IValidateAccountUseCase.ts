@@ -5,8 +5,8 @@ export interface validateAccountProps {
   emailToken: string;
 }
 
-interface IValidateAccountController {
+interface IValidateAccountUseCase {
   execute: (args: validateAccountProps) => Promise<User>;
 }
 
-export { IValidateAccountController };
+export { IValidateAccountUseCase };

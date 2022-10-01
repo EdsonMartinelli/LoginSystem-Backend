@@ -10,8 +10,8 @@ export interface tokenInfoProps {
   payload: payloadProps;
 }
 
-interface IJWTVerifierController {
+interface IJWTVerifierMiddleware {
   execute: (token: string | undefined) => tokenInfoProps;
 }
 
-export { IJWTVerifierController };
+export { IJWTVerifierMiddleware };

@@ -3,8 +3,8 @@ export interface ILoginUserRequest {
   password: string;
 }
 
-interface ILoginController {
+interface ILoginUseCase {
   execute: (args: ILoginUserRequest) => Promise<string>;
 }
 
-export { ILoginController };
+export { ILoginUseCase };

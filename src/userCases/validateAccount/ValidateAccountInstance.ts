@@ -1,9 +1,9 @@
 import { PrismaUserRepository } from "../../repositories/prisma/PrismaUserRepository";
 import { ValidateAccountController } from "./ValidateAccountController";
-import { ValidateAccountDTO } from "./ValidateAccountDTO";
+import { ValidateAccountUseCase } from "./ValidateAccountUseCase";
 
 export function ValidateAccountInstance() {
-  return new ValidateAccountDTO(
-    new ValidateAccountController(new PrismaUserRepository())
+  return new ValidateAccountController(
+    new ValidateAccountUseCase(new PrismaUserRepository())
   );
 }

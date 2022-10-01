@@ -1,6 +1,6 @@
 import { JWTVerifierController } from "./JWTVerifierController";
-import { JWTVerifierDTO } from "./JWTVerifierDTO";
+import { JWTVerifierMiddleware } from "./JWTVerifierMiddleware";
 
 export function JWTVerifierInstance() {
-  return new JWTVerifierDTO(new JWTVerifierController());
+  return new JWTVerifierController(new JWTVerifierMiddleware());
 }

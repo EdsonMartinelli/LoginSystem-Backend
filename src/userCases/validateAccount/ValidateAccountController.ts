@@ -1,29 +1,21 @@
-import { IUsersRepository } from "../../repositories/IUsersRepository";
-import {
-  IValidateAccountController,
-  validateAccountProps,
-} from "./IValidateAccountController";
+import { Request, Response } from "express";
+import { IValidateAccountUseCase } from "./IValidateAccountUseCase";
 
-class ValidateAccountController implements IValidateAccountController {
-  usersRepository: IUsersRepository;
-  constructor(usersRepository: IUsersRepository) {
-    this.usersRepository = usersRepository;
+class ValidateAccountController {
+  validateAccountUseCase: IValidateAccountUseCase;
+  constructor(validateAccountUseCase: IValidateAccountUseCase) {
+    this.validateAccountUseCase = validateAccountUseCase;
   }
 
-  async execute({ id, emailToken }: validateAccountProps) {
-    const user = await this.usersRepository.findByID(id);
-
-    if (user == null) {
-      throw new Error("There is no user with this ID!");
+  async handle(req: Request, res: Response) {
+    try {
+      const { emailToken } = req.body;
+      const { id } = req.params;
+      const user = this.validateAccountUseCase.execute({ id, emailToken });
+      return res.status(200).json({ message: "Success!", user });
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
     }
-
-    if (user.emailToken !== emailToken) {
-      throw new Error("Email token for validate is incorrect!");
-    }
-
-    const validateUser = await this.usersRepository.validateUser(id);
-
-    return validateUser;
   }
 }
 

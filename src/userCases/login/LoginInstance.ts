@@ -1,7 +1,7 @@
 import { PrismaUserRepository } from "../../repositories/prisma/PrismaUserRepository";
 import { LoginController } from "./LoginController";
-import { LoginDTO } from "./LoginDTO";
+import { LoginUseCase } from "./LoginUseCase";
 
 export function LoginInstance() {
-  return new LoginDTO(new LoginController(new PrismaUserRepository()));
+  return new LoginController(new LoginUseCase(new PrismaUserRepository()));
 }

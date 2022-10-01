@@ -1,6 +1,6 @@
 import { RevalidateTokenController } from "./RevalidateTokenController";
-import { RevalidateTokenDTO } from "./RevalidateTokenDTO";
+import { RevalidateTokenUseCase } from "./RevalidateTokenUseCase";
 
 export function RevalidateTokenInstance() {
-  return new RevalidateTokenDTO(new RevalidateTokenController());
+  return new RevalidateTokenController(new RevalidateTokenUseCase());
 }

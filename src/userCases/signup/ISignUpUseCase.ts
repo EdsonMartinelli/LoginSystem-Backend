@@ -6,8 +6,8 @@ export interface ISignUpUserRequest {
   password: string;
 }
 
-interface ISignUpController {
+interface ISignUpUseCase {
   execute: (args: ISignUpUserRequest) => Promise<User>;
 }
 
-export { ISignUpController };
+export { ISignUpUseCase };

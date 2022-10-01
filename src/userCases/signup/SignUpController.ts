@@ -1,43 +1,25 @@
-import * as crypto from "crypto";
-import bcrypt from "bcryptjs";
-import { userPrototypeProps } from "../../entities/User";
-import { IUsersRepository } from "../../repositories/IUsersRepository";
-import { ISignUpController, ISignUpUserRequest } from "./ISignUpController";
-import { IUsersEmailService } from "../../services/emailService/IUserEmailService";
+import { Request, Response } from "express";
+import { ISignUpUseCase } from "./ISignUpUseCase";
 
-class SignUpController implements ISignUpController {
-  usersRepository: IUsersRepository;
-  emailService: IUsersEmailService;
-  constructor(
-    usersRepository: IUsersRepository,
-    emailService: IUsersEmailService
-  ) {
-    this.usersRepository = usersRepository;
-    this.emailService = emailService;
+class SignUpController {
+  private readonly signUpUseCase: ISignUpUseCase;
+
+  constructor(signUpUseCase: ISignUpUseCase) {
+    this.signUpUseCase = signUpUseCase;
   }
 
-  async execute({ email, username, password }: ISignUpUserRequest) {
-    const userAlreadyExists = await this.usersRepository.findByEmail(email);
-
-    if (userAlreadyExists != null) {
-      throw new Error("User already exists!");
+  async handle(req: Request, res: Response) {
+    try {
+      const { email, username, password } = req.body;
+      const user = await this.signUpUseCase.execute({
+        email,
+        username,
+        password,
+      });
+      return res.status(200).json({ message: "Success!", user });
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
     }
-
-    const salt = bcrypt.genSaltSync();
-    const passwordHash = bcrypt.hashSync(password, salt);
-    const emailToken = crypto.randomBytes(3).toString("hex");
-
-    const newUser: userPrototypeProps = {
-      email,
-      username,
-      password: passwordHash,
-      salt,
-      emailToken,
-    };
-
-    const user = await this.usersRepository.create(newUser);
-    // await this.emailService.sendEmailConfirm({ email, emailToken });
-    return user;
   }
 }
 

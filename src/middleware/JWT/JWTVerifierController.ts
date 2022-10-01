@@ -1,27 +1,25 @@
-import { verify } from "jsonwebtoken";
-import { IJWTVerifierController, payloadProps } from "./IJWTVerifierController";
+import { Request, Response, NextFunction } from "express";
+import { IJWTVerifierMiddleware } from "./IJWTVerifierMiddleware";
 
-type payloadWithExpProps = payloadProps & {
-  exp: number;
-};
+class JWTVerifierController {
+  private readonly jwtVerifierMiddleware: IJWTVerifierMiddleware;
 
-class JWTVerifierController implements IJWTVerifierController {
-  execute(token: string | undefined) {
-    if (token == null || token === "") throw new Error("sem token");
+  constructor(jwtVerifierMiddleware: IJWTVerifierMiddleware) {
+    this.jwtVerifierMiddleware = jwtVerifierMiddleware;
+  }
 
-    const payloadWithExp = verify(token, process.env.SECRET_KEY ?? "");
-
-    const { id, email, username, iat } = payloadWithExp as payloadWithExpProps;
-    const tokenInfo = {
-      token,
-      payload: {
-        id,
-        email,
-        username,
-        iat,
-      },
-    };
-    return tokenInfo;
+  handle(req: Request, res: Response, next: NextFunction) {
+    try {
+      const token = req
+        .header("Authorization")
+        ?.replace("Bearer", "")
+        .replace(" ", "");
+      const tokenInfo = this.jwtVerifierMiddleware.execute(token);
+      req.body.tokenInfo = tokenInfo;
+      next();
+    } catch (error: any) {
+      res.status(401).json({ error: true, errorMessage: error.message });
+    }
   }
 }
 

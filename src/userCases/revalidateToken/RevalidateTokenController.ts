@@ -1,31 +1,17 @@
-import { IRevalidateTokenController } from "./IRevalidateTokenController";
-import { sign } from "jsonwebtoken";
-import {
-  payloadProps,
-  tokenInfoProps,
-} from "../../middleware/JWT/IJWTVerifierController";
+import { Request, Response } from "express";
+import { IRevalidateTokenUseCase } from "./IRevalidateTokenUseCase";
 
-class RevalidateTokenController implements IRevalidateTokenController {
-  execute(tokenInfo: tokenInfoProps) {
-    const timeToRevalidate = 15 * 60; // 15 minutes
+class RevalidateTokenController {
+  private readonly revalidateTokenUseCase: IRevalidateTokenUseCase;
 
-    if (
-      Math.floor(Date.now() / 1000) >=
-      tokenInfo.payload.iat + timeToRevalidate
-    ) {
-      const newPayload: payloadProps = {
-        id: tokenInfo.payload.id,
-        email: tokenInfo.payload.email,
-        username: tokenInfo.payload.username,
-        iat: Date.now(),
-      };
-      const newToken = sign(newPayload, process.env.SECRET_KEY ?? "", {
-        expiresIn: "30m",
-      }); // 30 minutes
-      return newToken;
-    }
+  constructor(revalidateTokenController: IRevalidateTokenUseCase) {
+    this.revalidateTokenUseCase = revalidateTokenController;
+  }
 
-    return tokenInfo.token;
+  handle(req: Request, res: Response) {
+    const tokenInfo = req.body.tokenInfo;
+    const token = this.revalidateTokenUseCase.execute(tokenInfo);
+    return res.status(200).json({ message: "Success!", token });
   }
 }
 
