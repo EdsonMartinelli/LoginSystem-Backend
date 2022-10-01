@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { sign } from "jsonwebtoken";
 import { ILoginController, ILoginUserRequest } from "./ILoginController";
-import { payloadProps } from "../../middleware/IJWTVerifierController";
+import { payloadProps } from "../../middleware/JWT/IJWTVerifierController";
 
 class LoginController implements ILoginController {
   usersRepository: IUsersRepository;

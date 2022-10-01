@@ -1,4 +1,4 @@
-import { tokenInfoProps } from "../../middleware/IJWTVerifierController";
+import { tokenInfoProps } from "../../middleware/JWT/IJWTVerifierController";
 
 interface IRevalidateTokenController {
   execute: (tokenInfo: tokenInfoProps) => string;

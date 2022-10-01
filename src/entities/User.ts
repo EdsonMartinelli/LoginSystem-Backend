@@ -17,15 +17,24 @@ class User {
   createdAt: Date;
   updatedAt: Date;
 
-  constructor({ id, email, username, password, salt, emailToken, createdAt, updatedAt }: User) {
-    this.id = id
+  constructor({
+    id,
+    email,
+    username,
+    password,
+    salt,
+    emailToken,
+    createdAt,
+    updatedAt,
+  }: User) {
+    this.id = id;
     this.email = email;
     this.username = username;
     this.password = password;
     this.salt = salt;
     this.emailToken = emailToken;
-    this.createdAt = createdAt
-    this.updatedAt = updatedAt
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
   }
 }
 

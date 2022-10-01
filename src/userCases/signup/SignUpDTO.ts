@@ -8,20 +8,18 @@ class SignUpDTO {
     this.signUpController = signUpControler;
   }
 
-  handle(req: Request, res: Response) {
-    const { email, username, password } = req.body;
-    this.signUpController
-      .execute({
+  async handle(req: Request, res: Response) {
+    try {
+      const { email, username, password } = req.body;
+      const user = await this.signUpController.execute({
         email,
         username,
         password,
-      })
-      .then((user) => {
-        res.status(200).json({ message: "Success!", user });
-      })
-      .catch((error) => {
-        res.status(500).json({ error: error.message });
       });
+      return res.status(200).json({ message: "Success!", user });
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
   }
 }
 

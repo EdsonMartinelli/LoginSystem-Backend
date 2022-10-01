@@ -32,11 +32,11 @@ class SignUpController implements ISignUpController {
       username,
       password: passwordHash,
       salt,
-      emailToken
+      emailToken,
     };
 
     const user = await this.usersRepository.create(newUser);
-    await this.emailService.sendEmailConfirm({ email, emailToken });
+    // await this.emailService.sendEmailConfirm({ email, emailToken });
     return user;
   }
 }

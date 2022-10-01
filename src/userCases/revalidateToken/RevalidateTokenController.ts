@@ -3,7 +3,7 @@ import { sign } from "jsonwebtoken";
 import {
   payloadProps,
   tokenInfoProps,
-} from "../../middleware/IJWTVerifierController";
+} from "../../middleware/JWT/IJWTVerifierController";
 
 class RevalidateTokenController implements IRevalidateTokenController {
   execute(tokenInfo: tokenInfoProps) {

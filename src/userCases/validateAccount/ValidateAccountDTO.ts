@@ -7,20 +7,15 @@ class ValidateAccountDTO {
     this.validateAccountController = validateAccountController;
   }
 
-  handle(req: Request, res: Response) {
-    const { emailToken } = req.body;
-    const { id } = req.params;
-    this.validateAccountController
-      .execute({
-        id,
-        emailToken,
-      })
-      .then((user) => {
-        res.status(200).json({ message: "Success!", user });
-      })
-      .catch((error) => {
-        res.status(500).json({ error: error.message });
-      });
+  async handle(req: Request, res: Response) {
+    try {
+      const { emailToken } = req.body;
+      const { id } = req.params;
+      const user = this.validateAccountController.execute({ id, emailToken });
+      return res.status(200).json({ message: "Success!", user });
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
   }
 }
 
