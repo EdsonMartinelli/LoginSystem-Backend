@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { UserAlreadyExistsError } from "../../errors/customErrors/UserAlreadyExistsError";
 import { ISignUpUseCase } from "./ISignUpUseCase";
 
 class SignUpController {
@@ -16,9 +17,25 @@ class SignUpController {
         username,
         password,
       });
-      return res.status(200).json({ message: "Success!", user });
-    } catch (error: any) {
-      return res.status(500).json({ error: error.message });
+      return res.status(200).json({
+        data: {
+          message: "Success!",
+          user,
+        },
+      });
+    } catch (error: any | UserAlreadyExistsError) {
+      if (error instanceof UserAlreadyExistsError) {
+        return res.status(error.status).json({
+          data: {
+            message: error.message,
+          },
+        });
+      }
+      return res.status(500).json({
+        data: {
+          message: "Internal Error Server.",
+        },
+      });
     }
   }
 }

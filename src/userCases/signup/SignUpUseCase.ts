@@ -4,6 +4,7 @@ import { userPrototypeProps } from "../../entities/User";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { IUsersEmailService } from "../../services/emailService/IUserEmailService";
 import { ISignUpUseCase, ISignUpUserRequest } from "./ISignUpUseCase";
+import { UserAlreadyExistsError } from "../../errors/customErrors/UserAlreadyExistsError";
 
 class SignUpUseCase implements ISignUpUseCase {
   usersRepository: IUsersRepository;
@@ -20,7 +21,7 @@ class SignUpUseCase implements ISignUpUseCase {
     const userAlreadyExists = await this.usersRepository.findByEmail(email);
 
     if (userAlreadyExists != null) {
-      throw new Error("User already exists!");
+      throw new UserAlreadyExistsError();
     }
 
     const salt = bcrypt.genSaltSync();

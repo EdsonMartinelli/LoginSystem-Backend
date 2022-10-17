@@ -1,3 +1,5 @@
+import { InvalidEmailTokenError } from "../../errors/customErrors/InvalidEmailTokenError";
+import { UserDoesNotExistError } from "../../errors/customErrors/UserDoesNotExistError";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 import {
   IValidateAccountUseCase,
@@ -14,11 +16,11 @@ class ValidateAccountUseCase implements IValidateAccountUseCase {
     const user = await this.usersRepository.findByID(id);
 
     if (user == null) {
-      throw new Error("There is no user with this ID!");
+      throw new UserDoesNotExistError();
     }
 
     if (user.emailToken !== emailToken) {
-      throw new Error("Email token for validate is incorrect!");
+      throw new InvalidEmailTokenError();
     }
 
     const validateUser = await this.usersRepository.validateUser(id);

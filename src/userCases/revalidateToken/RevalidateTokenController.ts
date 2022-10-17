@@ -11,7 +11,7 @@ class RevalidateTokenController {
   handle(req: Request, res: Response) {
     const tokenInfo = req.body.tokenInfo;
     const token = this.revalidateTokenUseCase.execute(tokenInfo);
-    return res.status(200).json({ message: "Success!", token });
+    return res.status(200).json({ data: { token } });
   }
 }
 

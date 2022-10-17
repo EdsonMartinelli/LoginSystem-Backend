@@ -3,6 +3,8 @@ import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { sign } from "jsonwebtoken";
 import { ILoginUseCase, ILoginUserRequest } from "./ILoginUseCase";
 import { payloadProps } from "../../middleware/JWT/IJWTVerifierMiddleware";
+import { UserDoesNotExistError } from "../../errors/customErrors/UserDoesNotExistError";
+import { InvalidCredentialsError } from "../../errors/customErrors/InvalidCredentialsError";
 
 class LoginUseCase implements ILoginUseCase {
   usersRepository: IUsersRepository;
@@ -14,11 +16,11 @@ class LoginUseCase implements ILoginUseCase {
     const user = await this.usersRepository.findByEmail(email);
 
     if (user == null) {
-      throw new Error("Password and/or email incorrect!");
+      throw new UserDoesNotExistError();
     }
 
     if (!bcrypt.compareSync(password, user.password)) {
-      throw new Error("Password incorrect!");
+      throw new InvalidCredentialsError();
     }
 
     const payload: payloadProps = {

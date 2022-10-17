@@ -1,4 +1,10 @@
 import { Request, Response, NextFunction } from "express";
+import {
+  JsonWebTokenError,
+  NotBeforeError,
+  TokenExpiredError,
+} from "jsonwebtoken";
+import { NoTokenError } from "../../errors/customErrors/NoTokenError";
 import { IJWTVerifierMiddleware } from "./IJWTVerifierMiddleware";
 
 class JWTVerifierController {
@@ -17,8 +23,37 @@ class JWTVerifierController {
       const tokenInfo = this.jwtVerifierMiddleware.execute(token);
       req.body.tokenInfo = tokenInfo;
       next();
-    } catch (error: any) {
-      res.status(401).json({ error: true, errorMessage: error.message });
+    } catch (error:
+      | any
+      | TokenExpiredError
+      | JsonWebTokenError
+      | NotBeforeError
+      | NoTokenError) {
+      if (
+        error instanceof TokenExpiredError ||
+        error instanceof JsonWebTokenError ||
+        error instanceof NotBeforeError
+      ) {
+        return res.status(401).json({
+          data: {
+            messsage: "Token is invalid.",
+          },
+        });
+      }
+
+      if (error instanceof NoTokenError) {
+        return res.status(error.status).json({
+          data: {
+            messsage: error.message,
+          },
+        });
+      }
+
+      return res.status(500).json({
+        data: {
+          message: "Internal Error Server.",
+        },
+      });
     }
   }
 }
