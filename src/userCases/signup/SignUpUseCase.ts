@@ -27,17 +27,19 @@ class SignUpUseCase implements ISignUpUseCase {
     const salt = bcrypt.genSaltSync();
     const passwordHash = bcrypt.hashSync(password, salt);
     const emailToken = crypto.randomBytes(3).toString("hex");
+    const passwordResetToken = crypto.randomUUID();
 
     const newUser: userPrototypeProps = {
       email,
       username,
       password: passwordHash,
+      passwordResetToken,
       salt,
       emailToken,
     };
 
     const user = await this.usersRepository.create(newUser);
-    await this.emailService.sendEmailConfirm({ email, emailToken });
+    // await this.emailService.sendEmailConfirm({ email, emailToken });
     return user;
   }
 }

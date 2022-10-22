@@ -11,13 +11,14 @@ datasource db {
 }
 
 model User {
-  id             String   @id @default(uuid())
-  email          String   @unique
-  username       String   
-  password       String
-  salt           String
-  emailVerified  Boolean  @default(false)
-  emailToken     String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id                  String   @id @default(uuid())
+  email               String   @unique
+  username            String   
+  password            String
+  passwordResetToken  String   @unique
+  salt                String
+  emailVerified       Boolean  @default(false)
+  emailToken          String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 }

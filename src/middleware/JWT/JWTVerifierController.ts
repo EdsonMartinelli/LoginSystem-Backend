@@ -36,7 +36,7 @@ class JWTVerifierController {
       ) {
         return res.status(401).json({
           data: {
-            messsage: "Token is invalid.",
+            message: "Token is invalid.",
           },
         });
       }
@@ -44,7 +44,7 @@ class JWTVerifierController {
       if (error instanceof NoTokenError) {
         return res.status(error.status).json({
           data: {
-            messsage: error.message,
+            message: error.message,
           },
         });
       }

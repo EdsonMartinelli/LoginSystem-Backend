@@ -2,6 +2,7 @@ export interface userPrototypeProps {
   email: string;
   username: string;
   password: string;
+  passwordResetToken: string; 
   salt: string;
   emailToken: string;
 }
@@ -11,6 +12,7 @@ class User {
   email: string;
   username: string;
   password: string;
+  passwordResetToken: string; 
   salt: string;
   emailVerified: boolean = false;
   emailToken: string;
@@ -22,6 +24,7 @@ class User {
     email,
     username,
     password,
+    passwordResetToken,
     salt,
     emailToken,
     createdAt,
@@ -31,6 +34,7 @@ class User {
     this.email = email;
     this.username = username;
     this.password = password;
+    this.passwordResetToken = passwordResetToken;
     this.salt = salt;
     this.emailToken = emailToken;
     this.createdAt = createdAt;
