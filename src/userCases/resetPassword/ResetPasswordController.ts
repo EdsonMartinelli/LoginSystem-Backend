@@ -13,10 +13,10 @@ class ResetPasswordController {
   async handle(req: Request, res: Response) {
     try {
       const { password } = req.body;
-      const { passwordResetToken } = req.params
+      const { passwordResetToken } = req.params;
       const user = await this.resetPasswordUseCase.execute({
         passwordResetToken,
-        password
+        password,
       });
       return res.status(200).json({
         data: {
@@ -25,15 +25,17 @@ class ResetPasswordController {
         },
       });
     } catch (error: any | InvalidUpdateError | UserDoesNotExistError) {
-      if (error instanceof InvalidUpdateError ||
-          error instanceof UserDoesNotExistError) {
+      if (
+        error instanceof InvalidUpdateError ||
+        error instanceof UserDoesNotExistError
+      ) {
         return res.status(error.status).json({
           data: {
             message: error.message,
           },
         });
       }
-      console.log(error)
+      console.log(error);
       return res.status(500).json({
         data: {
           message: "Internal Error Server.",

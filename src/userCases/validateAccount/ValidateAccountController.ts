@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { AccountAlreadyValidatedError } from "../../errors/customErrors/AccountAlreadyValidatedError";
 import { InvalidEmailTokenError } from "../../errors/customErrors/InvalidEmailTokenError";
 import { UserDoesNotExistError } from "../../errors/customErrors/UserDoesNotExistError";
 import { IValidateAccountUseCase } from "./IValidateAccountUseCase";
@@ -13,7 +14,10 @@ class ValidateAccountController {
     try {
       const { emailToken } = req.body;
       const { id } = req.params;
-      const user = this.validateAccountUseCase.execute({ id, emailToken });
+      const user = await this.validateAccountUseCase.execute({
+        id,
+        emailToken,
+      });
       return res.status(200).json({
         data: {
           message: "Success!",
@@ -23,7 +27,8 @@ class ValidateAccountController {
     } catch (error: any | UserDoesNotExistError | InvalidEmailTokenError) {
       if (
         error instanceof UserDoesNotExistError ||
-        error instanceof InvalidEmailTokenError
+        error instanceof InvalidEmailTokenError ||
+        error instanceof AccountAlreadyValidatedError
       ) {
         return res.status(error.status).json({
           data: {

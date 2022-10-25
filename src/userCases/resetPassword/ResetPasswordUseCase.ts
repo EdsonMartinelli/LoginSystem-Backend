@@ -1,22 +1,25 @@
 import * as crypto from "crypto";
 import bcrypt from "bcryptjs";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
-import { IResetPasswordUseCase, IResetPasswordUserRequest } from "./IResetPasswordUseCase";
+import {
+  IResetPasswordUseCase,
+  IResetPasswordUserRequest,
+} from "./IResetPasswordUseCase";
 import { UserDoesNotExistError } from "../../errors/customErrors/UserDoesNotExistError";
 import { InvalidUpdateError } from "../../errors/customErrors/InvalidUpdateError";
 
 class ResetPasswordUseCase implements IResetPasswordUseCase {
   usersRepository: IUsersRepository;
-  constructor(
-    usersRepository: IUsersRepository,
-  ) {
+  constructor(usersRepository: IUsersRepository) {
     this.usersRepository = usersRepository;
   }
 
   async execute({ passwordResetToken, password }: IResetPasswordUserRequest) {
-    const user = await this.usersRepository.findByPasswordResetToken(passwordResetToken)
+    const user = await this.usersRepository.findByPasswordResetToken(
+      passwordResetToken
+    );
 
-    if( user == null) {
+    if (user == null) {
       throw new UserDoesNotExistError();
     }
 
@@ -28,11 +31,11 @@ class ResetPasswordUseCase implements IResetPasswordUseCase {
       passwordResetToken,
       newSalt,
       newPassword,
-      newPasswordResetToken
+      newPasswordResetToken,
     });
 
     if (updateUser == null) {
-      throw new InvalidUpdateError()
+      throw new InvalidUpdateError();
     }
 
     return updateUser;

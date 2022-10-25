@@ -1,3 +1,4 @@
+import { AccountAlreadyValidatedError } from "../../errors/customErrors/AccountAlreadyValidatedError";
 import { InvalidEmailTokenError } from "../../errors/customErrors/InvalidEmailTokenError";
 import { UserDoesNotExistError } from "../../errors/customErrors/UserDoesNotExistError";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
@@ -17,6 +18,10 @@ class ValidateAccountUseCase implements IValidateAccountUseCase {
 
     if (user == null) {
       throw new UserDoesNotExistError();
+    }
+
+    if (user.emailVerified) {
+      throw new AccountAlreadyValidatedError();
     }
 
     if (user.emailToken !== emailToken) {

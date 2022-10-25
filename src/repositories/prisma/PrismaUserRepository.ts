@@ -29,6 +29,7 @@ class PrismaUserRepository implements IUsersRepository{
 
     async findByID(id: string): Promise<User | null> {
         const user = await usePrisma.user.findUnique({ where: { id } })
+        console.log(user)
         if (user == null) {
             return null;
         }

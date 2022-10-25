@@ -20,9 +20,12 @@ usersRouter.patch("/validateemail/:id", (req: Request, res: Response) => {
   void ValidateAccountInstance().handle(req, res);
 });
 
-usersRouter.patch("/resetpassword/:passwordResetToken", (req: Request, res: Response) => {
-  void ResetPasswordInstance().handle(req, res);
-});
+usersRouter.patch(
+  "/resetpassword/:passwordResetToken",
+  (req: Request, res: Response) => {
+    void ResetPasswordInstance().handle(req, res);
+  }
+);
 
 usersRouter.post(
   "/revalidateToken",
